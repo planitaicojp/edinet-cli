@@ -65,7 +65,16 @@ func csvValues(v reflect.Value) []string {
 		if tag == "" || tag == "-" {
 			continue
 		}
-		vals = append(vals, fmt.Sprintf("%v", v.Field(i).Interface()))
+		f := v.Field(i)
+		if f.Kind() == reflect.Ptr {
+			if f.IsNil() {
+				vals = append(vals, "")
+			} else {
+				vals = append(vals, fmt.Sprintf("%v", f.Elem().Interface()))
+			}
+		} else {
+			vals = append(vals, fmt.Sprintf("%v", f.Interface()))
+		}
 	}
 	return vals
 }
