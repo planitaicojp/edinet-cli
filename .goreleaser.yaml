@@ -1,0 +1,53 @@
+version: 2
+
+builds:
+  - binary: edinet
+    ldflags:
+      - -s -w -X github.com/planitaicojp/edinet-cli/cmd.version={{.Version}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"
+
+brews:
+  - repository:
+      owner: planitaicojp
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    name: edinet
+    homepage: "https://github.com/planitaicojp/edinet-cli"
+    description: "CLI tool for EDINET API v2 - 金融庁 開示書類の検索・取得"
+    license: "Apache-2.0"
+    install: |
+      bin.install "edinet"
+
+scoops:
+  - repository:
+      owner: planitaicojp
+      name: bucket
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    name: edinet
+    homepage: "https://github.com/planitaicojp/edinet-cli"
+    description: "CLI tool for EDINET API v2 - 金融庁 開示書類の検索・取得"
+    license: "Apache-2.0"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
