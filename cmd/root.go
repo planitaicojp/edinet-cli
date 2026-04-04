@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/planitaicojp/edinet-cli/cmd/company"
 	configCmd "github.com/planitaicojp/edinet-cli/cmd/config"
 	"github.com/planitaicojp/edinet-cli/cmd/document"
 	"github.com/spf13/cobra"
@@ -22,6 +23,7 @@ func init() {
 	rootCmd.PersistentFlags().Bool("no-color", false, "カラー出力を無効化")
 
 	rootCmd.AddCommand(document.Cmd)
+	rootCmd.AddCommand(company.Cmd)
 	rootCmd.AddCommand(configCmd.Cmd)
 }
 

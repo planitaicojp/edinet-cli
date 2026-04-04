@@ -10,5 +10,6 @@ var Cmd = &cobra.Command{
 
 func init() {
 	Cmd.AddCommand(listCmd)
+	Cmd.AddCommand(showCmd)
 	Cmd.AddCommand(downloadCmd)
 }
