@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	cerrors "github.com/planitaicojp/edinet-cli/internal/errors"
@@ -92,12 +93,17 @@ func (c *Client) doGet(rawURL string) (*http.Response, error) {
 		return nil, &cerrors.NetworkError{Err: fmt.Errorf("no response after %d retries", maxRetries)}
 	}
 
-	// Debug log response (read + re-buffer body)
+	// Debug log response — only buffer body for text/JSON to avoid OOM on large binaries
 	if debugEnabled {
-		body, _ := io.ReadAll(resp.Body)
-		_ = resp.Body.Close()
-		resp.Body = io.NopCloser(bytes.NewReader(body))
-		debugLogResponse(resp, elapsed, body)
+		ct := resp.Header.Get("Content-Type")
+		if isTextContentType(ct) {
+			body, _ := io.ReadAll(resp.Body)
+			_ = resp.Body.Close()
+			resp.Body = io.NopCloser(bytes.NewReader(body))
+			debugLogResponse(resp, elapsed, body)
+		} else {
+			debugLogResponse(resp, elapsed, nil)
+		}
 	}
 
 	return resp, nil
@@ -176,6 +182,14 @@ func classifyError(statusCode int, body []byte) error {
 	default:
 		return &cerrors.APIError{StatusCode: statusCode, Message: msg}
 	}
+}
+
+// isTextContentType returns true for content types safe to buffer for debug logging.
+func isTextContentType(ct string) bool {
+	ct = strings.ToLower(ct)
+	return strings.HasPrefix(ct, "application/json") ||
+		strings.HasPrefix(ct, "text/") ||
+		strings.Contains(ct, "xml")
 }
 
 func MaskAPIKey(key string) string {

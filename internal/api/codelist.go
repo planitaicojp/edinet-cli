@@ -18,7 +18,7 @@ const codeListURL = "https://disclosure2dl.edinet-fsa.go.jp/searchdocument/codel
 
 // DownloadCodeList downloads the EDINET code list ZIP and returns the response body.
 func (c *Client) DownloadCodeList() (io.ReadCloser, error) {
-	resp, err := c.HTTP.Get(codeListURL)
+	resp, err := c.doGet(codeListURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to download code list: %w", err)
 	}
