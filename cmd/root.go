@@ -18,7 +18,6 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.SetVersionTemplate("edinet version {{.Version}}\n")
 	rootCmd.PersistentFlags().StringP("format", "f", "", "出力形式 (table, json, csv)")
 	rootCmd.PersistentFlags().String("api-key", "", "EDINET API キー")
 	rootCmd.PersistentFlags().Bool("verbose", false, "デバッグ出力を有効化")

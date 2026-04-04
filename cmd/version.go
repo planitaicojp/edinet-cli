@@ -1,15 +1,12 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 var version = "dev"
 
-const banner = `
-  _____ ____ ___ _   _ _____ _____
+const banner = `  _____ ____ ___ _   _ _____ _____
  | ____|  _ \_ _| \ | | ____|_   _|
  |  _| | | | | ||  \| |  _|   | |
  | |___| |_| | || |\  | |___  | |
@@ -26,8 +23,9 @@ const banner = `
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "バージョン情報を表示",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf(banner, version)
+		cmd.Printf(banner, version)
 	},
 }
 
