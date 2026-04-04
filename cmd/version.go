@@ -12,7 +12,7 @@ const banner = `  _____ ____ ___ _   _ _____ _____
  | |___| |_| | || |\  | |___  | |
  |_____|____/___|_| \_|_____| |_|
   edinet-cli %s
-  Author:  Tonghyun Kim
+  Author:  planitai.co.jp
   License: Apache-2.0
   Home:    https://github.com/planitaicojp/edinet-cli
 
